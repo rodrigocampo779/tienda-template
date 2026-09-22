@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#1a1a2e"/>
+  
+  <!-- Fondo decorativo círculos -->
+  <circle cx="400" cy="500" r="380" fill="none" stroke="#bc8187" stroke-width="1" opacity="0.3"/>
+  <circle cx="400" cy="500" r="300" fill="none" stroke="#bc8187" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Percha -->
+  <path d="M400 180 Q400 150 430 150 Q460 150 460 175 Q460 195 430 200" 
+        fill="none" stroke="#bc8187" stroke-width="8" stroke-linecap="round"/>
+  <path d="M400 200 Q300 220 200 280 Q180 295 200 310 Q220 325 240 310 L400 220 L560 310 Q580 325 600 310 Q620 295 600 280 Q500 220 400 200Z" 
+        fill="#bc8187" opacity="0.9"/>
+  
+  <!-- Vestido -->
+  <path d="M240 310 L200 550 Q195 570 210 575 L590 575 Q605 570 600 550 L560 310 Z" 
+        fill="#2a1a1e" stroke="#bc8187" stroke-width="2"/>
+  
+  <!-- Detalle vestido - falda -->
+  <path d="M200 575 Q180 700 160 850 Q155 870 175 875 L625 875 Q645 870 640 850 Q620 700 600 575 Z" 
+        fill="#2a1a1e" stroke="#bc8187" stroke-width="2"/>
+  
+  <!-- Detalle escote -->
+  <path d="M320 310 Q400 360 480 310" fill="none" stroke="#bc8187" stroke-width="3" opacity="0.6"/>
+  
+  <!-- Detalle cintura -->
+  <line x1="200" y1="575" x2="600" y2="575" stroke="#bc8187" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Detalles decorativos vestido -->
+  <path d="M320 430 Q400 450 480 430" fill="none" stroke="#bc8187" stroke-width="1.5" opacity="0.4"/>
+  <path d="M290 500 Q400 525 510 500" fill="none" stroke="#bc8187" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Brillos -->
+  <circle cx="350" cy="380" r="3" fill="#bc8187" opacity="0.6"/>
+  <circle cx="420" cy="420" r="2" fill="#bc8187" opacity="0.4"/>
+  <circle cx="380" cy="460" r="2" fill="#bc8187" opacity="0.5"/>
+  
+  <!-- Texto decorativo -->
+  <text x="400" y="940" font-family="Georgia, serif" font-size="28" fill="#bc8187" 
+        text-anchor="middle" opacity="0.7" letter-spacing="8">MODA · ESTILO</text>
+</svg>
