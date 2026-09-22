@@ -1,0 +1,1183 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATAJ Femme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Pirata+One&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     ATAJ FEMME — fixed brand world: black + pink, gothic-Y2K.
+     Single deliberate dark theme (matches the brand identity),
+     tokens declared explicitly so the page holds its look on
+     any host background. See artifact-design: "deliberate single
+     visual world" allowance.
+     ========================================================= */
+  :root{
+    --ink:      #0c0b0d;   /* page ground, warm near-black */
+    --ink-2:    #131116;   /* raised surface / card bodies */
+    --ink-3:    #1c1820;   /* inputs, hover surface */
+    --bone:     #f3ece7;   /* primary text, warm ivory (not pure white) */
+    --bone-dim: #b6acaa;   /* secondary text, warm muted grey */
+    --rose:     #bc8187;   /* primary accent — dusty gothic rose */
+    --rose-deep:#5e3f43;   /* accent shadows / gradients — muted wine, same hue darkened */
+    --wire:     #766b78;   /* hairline neutral, hue-biased toward rose */
+    --line:     rgba(243,236,231,.12);
+    --line-strong: rgba(243,236,231,.22);
+
+    --font-display: "Unbounded", "Arial Black", sans-serif;
+    --font-gothic:  "Pirata One", "Georgia", serif;
+    --font-body:    "Manrope", "Segoe UI", sans-serif;
+
+    --fs-hero: clamp(2.6rem, 1.6rem + 5.2vw, 6.4rem);
+    --fs-h2:   clamp(1.9rem, 1.4rem + 2.2vw, 3.2rem);
+    --fs-h3:   clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    --fs-body: 1rem;
+    --fs-small:0.8125rem;
+
+    --maxw: 1280px;
+    --pad: clamp(1.25rem, 5vw, 4rem);
+    --ease: cubic-bezier(.16,.84,.44,1);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ background:var(--ink); }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--font-body);
+    font-size:var(--fs-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; letter-spacing:-0.01em; }
+  p{ margin:0; }
+  button{ font-family:inherit; }
+  ::selection{ background:var(--rose); color:var(--ink); }
+
+  .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad); }
+
+  .kicker{
+    display:inline-flex; align-items:center; gap:.5em;
+    font-family:var(--font-gothic); font-size:1.05rem;
+    color:var(--rose); letter-spacing:.02em;
+  }
+
+  .eyebrow{
+    font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--bone-dim);
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
+
+  /* ---------- heart-wire icon ---------- */
+  .hw{ width:1em; height:1em; overflow:visible; }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:fixed; inset:0 0 auto 0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem var(--pad);
+    background:rgba(12,11,13,.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{ display:flex; align-items:center; gap:.6rem; text-decoration:none; }
+  .brand-mark{ height:2.3rem; width:auto; flex-shrink:0; border-radius:4px; }
+  .nav-links{ display:flex; gap:2rem; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    font-family:var(--font-gothic); text-decoration:none; font-size:1rem; font-weight:400;
+    color:var(--bone-dim); position:relative; padding-block:.2rem; transition:color .25s var(--ease);
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:100%; bottom:0; height:1px; background:var(--rose);
+    transition:right .3s var(--ease);
+  }
+  .nav-links a:hover{ color:var(--bone); }
+  .nav-links a:hover::after{ right:0; }
+  .nav-right{ display:flex; align-items:center; gap:1.1rem; }
+  @media (max-width:760px){ .nav-links{ display:none; } }
+
+  .icon-btn{
+    position:relative; display:inline-flex; align-items:center; justify-content:center;
+    width:2.6rem; height:2.6rem; border-radius:999px; border:1px solid var(--line-strong);
+    background:var(--ink-2); color:var(--bone); cursor:pointer; transition:border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .icon-btn:hover{ border-color:var(--rose); transform:translateY(-2px); }
+  .icon-btn .hw{ width:1.15rem; height:1.15rem; }
+  .cart-count{
+    position:absolute; top:-6px; right:-6px; min-width:1.15rem; height:1.15rem; padding:0 .3rem;
+    display:flex; align-items:center; justify-content:center; border-radius:999px;
+    background:var(--rose); color:var(--ink); font-size:.65rem; font-weight:800;
+    font-variant-numeric:tabular-nums;
+  }
+  .cart-count[data-empty="true"]{ display:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative; padding:9.5rem var(--pad) 3.5rem; overflow:hidden;
+    max-width:var(--maxw); margin-inline:auto;
+  }
+  .hero-mark{
+    position:absolute; top:50%; right:6%; width:min(38vw,420px); aspect-ratio:1/1;
+    border:3px solid var(--rose); border-radius:18%; background:#0c0b0d; padding:1.8rem;
+    overflow:hidden; filter:drop-shadow(0 24px 60px rgba(0,0,0,.55));
+    transform:translateY(-50%) rotate(8deg); animation:drift 14s ease-in-out infinite;
+  }
+  .hero-mark img{ width:100%; height:100%; object-fit:contain; display:block; mix-blend-mode:screen; }
+  @media (max-width:760px){ .hero-mark{ display:none; } }
+  @keyframes drift{ 0%,100%{ transform:translateY(-50%) rotate(8deg);} 50%{ transform:translateY(calc(-50% - 14px)) rotate(4deg);} }
+  .hero-inner{ position:relative; max-width:46rem; }
+  .hero h1{
+    font-family:var(--font-gothic); font-size:calc(var(--fs-hero) * .82); font-weight:400;
+    line-height:1.04; margin-top:1rem; letter-spacing:.005em;
+  }
+  .hero h1 em{ font-style:normal; color:var(--rose); }
+  .hero-sub{ margin-top:1.5rem; max-width:34rem; color:var(--bone-dim); font-size:1.05rem; }
+  .hero-cta{ display:flex; flex-wrap:wrap; align-items:center; gap:1.6rem; margin-top:2.2rem; }
+  @media (max-width:760px){
+    .hero{ padding-top:6rem; padding-bottom:2.5rem; min-height:58vh; min-height:58svh; display:flex; align-items:center; }
+    .hero-inner{ margin-inline:auto; text-align:center; }
+    .hero-sub{ margin-inline:auto; }
+    .hero-cta{ justify-content:center; }
+  }
+  .ig-inline{ font-family:var(--font-gothic); display:inline-flex; align-items:center; gap:.5rem; font-size:1.05rem; font-weight:400; color:var(--bone); text-decoration:none; border-bottom:1px solid var(--line-strong); padding-bottom:.15rem; transition:border-color .25s var(--ease), color .25s var(--ease); }
+  .ig-inline:hover{ color:var(--rose); border-color:var(--rose); }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer; font-family:var(--font-body);
+    font-weight:800; font-size:.85rem; letter-spacing:.02em; border-radius:999px;
+    padding:.95rem 1.7rem; display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+  }
+  .btn--primary{ background:linear-gradient(135deg,var(--rose),var(--rose-deep)); color:#fff; box-shadow:0 10px 30px -12px rgba(188,129,135,.55); }
+  #heroShopBtn{ font-family:var(--font-gothic); font-weight:400; font-size:1.05rem; letter-spacing:0; }
+  .btn--primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -12px rgba(188,129,135,.7); }
+  .btn--primary:disabled{ opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn--ghost{ background:transparent; color:var(--bone); border:1px solid var(--line-strong); }
+  .btn--ghost:hover{ border-color:var(--rose); color:var(--rose); }
+  .btn--block{ width:100%; }
+  .btn--add{ background:var(--ink-3); color:var(--bone); border:1px solid var(--line-strong); width:100%; margin-top:1.1rem; }
+  .btn--add:hover{ background:var(--rose); border-color:var(--rose); color:#1a0510; }
+
+  /* ---------- marquee ---------- */
+  .marquee{
+    position:relative; overflow:hidden; background:var(--ink-2);
+    border-block:1px solid var(--line); padding:.85rem 0; transform:rotate(-.6deg) scale(1.02);
+    margin-block:2.5rem;
+  }
+  .marquee-track{ display:flex; width:max-content; gap:2.5rem; animation:scroll 26s linear infinite; }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  .marquee span{
+    display:inline-flex; align-items:center; gap:.6rem; white-space:nowrap;
+    font-family:var(--font-display); font-weight:700; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--bone-dim);
+  }
+  .marquee .hw{ width:.8rem; height:.8rem; color:var(--rose); }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{ animation:none; } }
+
+  /* ---------- section shell ---------- */
+  section{ padding-block:5rem; }
+  .sec-head{
+    display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1.5rem;
+    margin-bottom:3rem;
+  }
+  .sec-head h2{
+    font-family:var(--font-gothic); font-weight:400; line-height:1.15; letter-spacing:.005em;
+    margin-top:.6rem; max-width:32rem;
+  }
+  @media (max-width:760px){
+    .sec-head{ justify-content:center; text-align:center; }
+    .sec-head h2{ margin-inline:auto; font-size:2.9rem; max-width:100%; }
+    .sec-head .kicker{ font-size:1.35rem; }
+  }
+  .sec-head .meta{ color:var(--bone-dim); font-size:.85rem; max-width:16rem; text-align:right; }
+  @media (max-width:700px){ .sec-head .meta{ text-align:left; } }
+
+  .shop-filters{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    gap:1rem; margin-bottom:2.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--line);
+  }
+  .search-field{ display:flex; align-items:center; justify-content:flex-end; gap:.5rem; }
+  .search-field input{
+    width:0; min-width:0; opacity:0; padding:0; margin:0; border:none; background:transparent; color:var(--bone);
+    border-radius:999px; font-size:.85rem; font-family:inherit;
+    transition:width .3s var(--ease), opacity .2s ease, padding .3s var(--ease);
+  }
+  .search-field.is-open input{
+    width:14rem; max-width:40vw; opacity:1; padding:.65rem 1rem;
+    background:var(--ink-2); border:1px solid var(--line-strong);
+  }
+  .search-field input::placeholder{ color:var(--bone-dim); }
+  .search-field input:focus{ outline:2px solid var(--rose); outline-offset:1px; border-color:var(--rose); }
+  .search-field .icon-btn[aria-expanded="true"]{ border-color:var(--rose); color:var(--rose); }
+  .filter-cats{ display:flex; flex-wrap:wrap; gap:.5rem; }
+  .shop-empty{ text-align:center; color:var(--bone-dim); font-size:.9rem; padding:3.5rem 1rem; }
+
+  /* ---------- testimonios ---------- */
+  .testi-head{ text-align:center; max-width:32rem; margin-inline:auto; margin-top:2.8rem; }
+  .testi-sub{ margin-top:.6rem; margin-inline:auto; color:var(--bone-dim); font-size:.95rem; max-width:28rem; }
+  .testi-wrap{ overflow:hidden; margin-top:1.6rem; }
+  .testi-track{ display:flex; gap:1.5rem; width:max-content; animation:testiScroll 46s linear infinite; }
+  .testi-wrap:hover .testi-track{ animation-play-state:paused; }
+  .testi-track img{
+    height:280px; width:auto; object-fit:contain; border-radius:14px;
+    border:1px solid var(--line-strong); background:var(--ink-2);
+    box-shadow:0 20px 44px -22px rgba(0,0,0,.6);
+  }
+  @keyframes testiScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (max-width:620px){ .testi-track img{ height:200px; } }
+
+  .reveal{ transform:translateY(26px); transition:transform .85s var(--ease); }
+  .reveal.is-visible{ transform:translateY(0); }
+
+  /* ---------- divider ---------- */
+  .divider{ display:flex; align-items:center; justify-content:center; gap:1.4rem; padding-block:1rem; }
+  .divider::before,.divider::after{ content:""; flex:1; max-width:12rem; height:0; border-top:2px dashed var(--wire); opacity:.5; }
+  .divider .hw{ width:1.3rem; height:1.3rem; color:var(--wire); }
+
+  /* ---------- shop grid ---------- */
+  .shop-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.75rem; }
+  .piece{ display:flex; flex-direction:column; }
+  .piece--wide{ grid-column:span 2; }
+  @media (max-width:900px){ .shop-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:620px){
+    .shop-grid{ grid-template-columns:repeat(2,1fr); gap:1rem; }
+    .piece__body{ padding-top:.85rem; margin-top:.85rem; }
+    .piece__head{ flex-wrap:wrap; }
+    .piece__head h3{ font-size:.92rem; }
+    .piece__price{ font-size:.85rem; }
+    .piece__desc{ font-size:.78rem; }
+    .pill{ padding:.32rem .6rem; font-size:.72rem; }
+    .btn--add{ font-size:.75rem; padding:.75rem 1rem; }
+  }
+
+  .piece__frame{
+    position:relative; overflow:hidden; background:var(--ink-2); border:1px solid var(--line);
+    cursor:zoom-in;
+  }
+  .piece--tall .piece__frame{ aspect-ratio:3/4.3; }
+  .piece--wide .piece__frame{ aspect-ratio:5/4.4; }
+  .piece__frame img{
+    width:100%; height:100%; object-fit:cover; object-position:top;
+    filter:grayscale(10%) contrast(1.04);
+    transition:transform .8s var(--ease), filter .5s ease;
+  }
+  .piece:hover .piece__frame img{ transform:scale(1.045); filter:grayscale(0%) contrast(1.02); }
+  .piece__tag{
+    position:absolute; top:.9rem; left:.9rem; background:var(--rose); color:#1a0510;
+    font-size:.68rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+    padding:.35rem .65rem; border-radius:999px;
+  }
+  .piece__mark{ position:absolute; bottom:.8rem; right:.8rem; width:1.6rem; height:1.6rem; color:var(--bone); opacity:.55; }
+  .piece__zoom{
+    position:absolute; top:.9rem; right:.9rem; width:2.1rem; height:2.1rem; border-radius:999px;
+    background:rgba(12,11,13,.55); backdrop-filter:blur(4px); border:1px solid var(--line-strong);
+    color:var(--bone); display:flex; align-items:center; justify-content:center;
+    opacity:.8; transition:opacity .25s ease, border-color .25s ease, color .25s ease;
+  }
+  .piece__zoom .hw{ width:1rem; height:1rem; }
+  .piece:hover .piece__zoom{ opacity:1; border-color:var(--rose); color:var(--rose); }
+
+  .lightbox{
+    position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+    background:rgba(6,5,7,.92); padding:clamp(1.5rem,6vw,4rem);
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .lightbox.is-open{ opacity:1; pointer-events:auto; }
+  .lightbox img{ max-width:100%; max-height:100%; object-fit:contain; box-shadow:0 30px 80px -20px rgba(0,0,0,.7); }
+  .lightbox__close{
+    position:absolute; top:1.2rem; right:1.2rem; width:2.8rem; height:2.8rem; border-radius:999px;
+    background:var(--ink-2); border:1px solid var(--line-strong); color:var(--bone);
+    font-size:1.5rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox__close:hover{ border-color:var(--rose); color:var(--rose); }
+
+  .piece__body{ padding-top:1.1rem; border-top:1px solid var(--line); margin-top:1.1rem; flex:1; display:flex; flex-direction:column; }
+  .piece__head{ display:flex; align-items:baseline; justify-content:space-between; gap:.75rem; }
+  .piece__head h3{ font-size:var(--fs-h3); font-weight:600; }
+  .piece__price{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; color:var(--rose); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .piece__desc{ margin-top:.4rem; color:var(--bone-dim); font-size:.88rem; }
+
+  .pillrow{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.9rem; }
+  .pillrow-label{ font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--bone-dim); width:100%; margin-top:.7rem; }
+  .pillrow-label:first-child{ margin-top:0; }
+  .pill{
+    appearance:none; cursor:pointer; background:var(--ink-3); color:var(--bone-dim);
+    border:1px solid var(--line-strong); border-radius:999px; padding:.4rem .85rem; font-size:.78rem; font-weight:700;
+    transition:all .2s var(--ease);
+  }
+  .pill:hover{ border-color:var(--rose); color:var(--bone); }
+  .pill.is-active{ background:var(--rose); border-color:var(--rose); color:#1a0510; }
+  .pillrow.needs-attention{ animation:nudge .4s var(--ease); }
+  .pillrow.needs-attention .pill{ border-color:var(--rose-deep); }
+  @keyframes nudge{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-4px);} 75%{ transform:translateX(4px);} }
+  .hint{ font-size:.72rem; color:var(--rose); margin-top:.4rem; display:none; }
+  .hint.is-visible{ display:block; }
+  .size-static{ font-size:.78rem; color:var(--bone-dim); margin-top:.9rem; }
+
+  /* ---------- nosotras ---------- */
+  .about{ display:grid; grid-template-columns:1.1fr .9fr; gap:4rem; align-items:center; }
+  @media (max-width:860px){ .about{ grid-template-columns:1fr; gap:3rem; } }
+  .about blockquote{
+    font-family:var(--font-display); font-weight:800; font-size:var(--fs-h2); line-height:1.12;
+    margin:1rem 0 1.6rem; text-wrap:balance;
+  }
+  .about blockquote em{ font-style:normal; color:var(--rose); }
+  .about p{ color:var(--bone-dim); max-width:34rem; }
+  .about p + p{ margin-top:1rem; }
+  .about-lead{ font-size:1.2rem; color:var(--bone) !important; margin-top:1rem; }
+  .facts{ display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; margin-top:1.6rem; }
+  .facts span{ font-size:.8rem; color:var(--bone-dim); display:inline-flex; align-items:center; gap:.5rem; }
+  .facts .hw{ width:.7rem; height:.7rem; color:var(--rose); }
+
+  .collage{ position:relative; height:clamp(320px,38vw,460px); }
+  .collage img{
+    position:absolute; object-fit:cover; border:1px solid var(--line-strong); background:var(--ink-2);
+    filter:grayscale(10%) contrast(1.04);
+  }
+  .collage .c1{ width:100%; height:100%; left:0; top:0; z-index:2; object-position:50% 22%; }
+  .collage .badge{
+    position:absolute; left:48%; top:-1.4rem; width:6.2rem; height:6.2rem;
+    object-fit:contain; border-radius:18%; border:2px solid var(--rose); background:#0c0b0d;
+    padding:.35rem; z-index:4; filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));
+    animation:spinSlow 26s linear infinite; mix-blend-mode:screen;
+  }
+  @keyframes spinSlow{ to{ transform:rotate(360deg); } }
+
+  /* ---------- instagram ---------- */
+  .ig-head{ text-align:center; max-width:32rem; margin-inline:auto; }
+  .ig-head h2{ margin-top:.6rem; }
+  .ig-cta{ display:flex; justify-content:center; margin-top:2.6rem; }
+
+  /* ---------- footer ---------- */
+  footer{ border-top:1px solid var(--line); padding-block:3.5rem 2rem; margin-top:2rem; }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:2.5rem; }
+  @media (max-width:700px){ .foot-grid{ grid-template-columns:1fr; gap:2rem; } }
+  .foot-brand{ display:flex; align-items:center; gap:.6rem; }
+  .foot-brand .brand-mark{ height:2.7rem; mix-blend-mode:screen; }
+  .foot-brand span{ font-family:var(--font-display); font-weight:800; font-size:1.05rem; }
+  .foot-tag{ margin-top:.9rem; color:var(--bone-dim); font-size:.85rem; max-width:22rem; }
+  .foot-col h4{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--bone-dim); margin-bottom:1rem; font-weight:700; }
+  .foot-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.7rem; }
+  .foot-col a{ text-decoration:none; font-size:.9rem; color:var(--bone); transition:color .2s ease; }
+  .foot-col a:hover{ color:var(--rose); }
+  .foot-bottom{ margin-top:3rem; padding-top:1.6rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; color:var(--bone-dim); font-size:.78rem; }
+
+  /* ---------- cart ---------- */
+  .cart-fab{
+    position:fixed; right:1.4rem; bottom:1.4rem; z-index:70;
+    width:3.4rem; height:3.4rem; border-radius:999px; border:1px solid var(--line-strong);
+    background:var(--ink-2); color:var(--rose); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 14px 30px -12px rgba(0,0,0,.6);
+    transition:transform .3s var(--ease), border-color .3s var(--ease);
+  }
+  .cart-fab:hover{ transform:translateY(-3px) scale(1.04); border-color:var(--rose); }
+  .cart-fab .hw{ width:1.5rem; height:1.5rem; }
+
+  .scrim{
+    position:fixed; inset:0; background:rgba(6,5,7,.6); backdrop-filter:blur(2px);
+    opacity:0; pointer-events:none; transition:opacity .35s ease; z-index:80;
+  }
+  .scrim.is-open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:min(420px,100%);
+    background:var(--ink-2); border-left:1px solid var(--line-strong); z-index:90;
+    display:flex; flex-direction:column;
+    transform:translateX(100%); transition:transform .45s var(--ease);
+  }
+  .drawer.is-open{ transform:translateX(0); }
+  .drawer__head{ display:flex; align-items:center; justify-content:space-between; padding:1.4rem 1.4rem 1.1rem; border-bottom:1px solid var(--line); }
+  .drawer__head h3{ font-size:1.1rem; letter-spacing:.02em; }
+  .drawer__close{ background:none; border:none; color:var(--bone-dim); cursor:pointer; font-size:1.4rem; line-height:1; padding:.2rem; }
+  .drawer__close:hover{ color:var(--rose); }
+  .drawer__body{ flex:1; overflow-y:auto; padding:1.1rem 1.4rem; display:flex; flex-direction:column; gap:1.1rem; }
+  .drawer__empty{ color:var(--bone-dim); font-size:.9rem; text-align:center; padding:3rem 1rem; }
+
+  .cart-item{ display:grid; grid-template-columns:56px 1fr auto; gap:.85rem; align-items:flex-start; }
+  .cart-item img{ width:56px; height:70px; object-fit:cover; border:1px solid var(--line); }
+  .cart-item__name{ font-size:.9rem; font-weight:700; }
+  .cart-item__meta{ font-size:.75rem; color:var(--bone-dim); margin-top:.2rem; }
+  .cart-item__price{ font-size:.82rem; color:var(--rose); margin-top:.35rem; font-weight:700; font-variant-numeric:tabular-nums; }
+  .qty{ display:flex; align-items:center; gap:.5rem; margin-top:.5rem; }
+  .qty button{ width:1.5rem; height:1.5rem; border-radius:5px; border:1px solid var(--line-strong); background:var(--ink-3); color:var(--bone); cursor:pointer; font-size:.85rem; line-height:1; }
+  .qty button:hover{ border-color:var(--rose); color:var(--rose); }
+  .qty span{ font-size:.85rem; min-width:1.1rem; text-align:center; font-variant-numeric:tabular-nums; }
+  .cart-item__remove{ background:none; border:none; color:var(--bone-dim); cursor:pointer; font-size:1rem; padding:.1rem; }
+  .cart-item__remove:hover{ color:var(--rose); }
+
+  .drawer__fields{ display:flex; flex-direction:column; gap:.7rem; padding:0 1.4rem 1rem; }
+  .drawer__fields input{
+    background:var(--ink-3); border:1px solid var(--line-strong); color:var(--bone);
+    border-radius:8px; padding:.7rem .85rem; font-size:.85rem; font-family:inherit;
+  }
+  .drawer__fields input::placeholder{ color:var(--bone-dim); }
+  .drawer__fields input:focus{ outline:2px solid var(--rose); outline-offset:1px; }
+
+  .drawer__foot{ border-top:1px solid var(--line); padding:1.1rem 1.4rem 1.4rem; }
+  .totals{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1rem; }
+  .totals span:first-child{ font-size:.85rem; color:var(--bone-dim); text-transform:uppercase; letter-spacing:.06em; }
+  .totals span:last-child{ font-family:var(--font-display); font-size:1.3rem; color:var(--rose); font-variant-numeric:tabular-nums; }
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed; left:50%; bottom:1.5rem; transform:translate(-50%,20px); z-index:95;
+    background:var(--bone); color:var(--ink); padding:.75rem 1.2rem; border-radius:999px;
+    font-size:.85rem; font-weight:700; opacity:0; transition:opacity .3s ease, transform .3s ease;
+    pointer-events:none; display:flex; align-items:center; gap:.5rem;
+  }
+  .toast.is-visible{ opacity:1; transform:translate(-50%,0); }
+  .toast .hw{ width:.9rem; height:.9rem; color:var(--rose-deep); }
+
+  :focus-visible{ outline:2px solid var(--rose); outline-offset:2px; }
+  [hidden]{ display:none !important; }
+</style>
+
+<!-- reusable gothic heart-wire mark -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <symbol id="heart-wire" viewBox="0 0 100 92">
+    <path d="M50 88 C18 62 2 40 2 22 C2 6 16 -2 30 4 C40 8 47 16 50 24 C53 16 60 8 70 4 C84 -2 98 6 98 22 C98 40 82 62 50 88 Z"
+          fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.5 6"/>
+    <path d="M50 88 C18 62 2 40 2 22 C2 6 16 -2 30 4 C40 8 47 16 50 24 C53 16 60 8 70 4 C84 -2 98 6 98 22 C98 40 82 62 50 88 Z"
+          fill="none" stroke="currentColor" stroke-width="1"/>
+    <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+      <line x1="86" y1="18" x2="99" y2="3"/><line x1="86" y1="18" x2="100" y2="17"/><line x1="86" y1="18" x2="92" y2="30"/>
+      <line x1="15" y1="72" x2="1" y2="57"/><line x1="15" y1="72" x2="0" y2="73"/><line x1="15" y1="72" x2="8" y2="85"/>
+    </g>
+    <circle cx="86" cy="18" r="2" fill="currentColor"/>
+    <circle cx="15" cy="72" r="2" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24">
+    <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="21" y1="21" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-expand" viewBox="0 0 24 24">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-bag" viewBox="0 0 24 24">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<nav class="nav">
+  <a class="brand" href="#top">
+    <img class="brand-mark" src="img/img0.jpeg" alt="ATAJ">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#tienda">Colección</a></li>
+    <li><a href="#instagram">Instagram</a></li>
+    <li><a href="#nosotras">Mi historia</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="icon-btn" id="cartOpenBtn" aria-haspopup="dialog" aria-controls="cartDrawer" aria-label="Abrir carrito">
+      <svg class="hw"><use href="#icon-bag"/></svg>
+      <span class="cart-count" id="cartCount" data-empty="true">0</span>
+    </button>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-mark" aria-hidden="true">
+      <img src="img/img0.jpeg" alt="">
+    </div>
+    <div class="hero-inner">
+      <h1>Piezas que<br>hablan <em>por vos.</em></h1>
+      <p class="hero-sub">Prendas con personalidad, cómodas y versátiles que transforman cualquier outfit.</p>
+      <div class="hero-cta">
+        <button class="btn btn--primary" id="heroShopBtn">
+          <svg class="hw"><use href="#heart-wire"/></svg>
+          Ver la colección
+        </button>
+        <a class="ig-inline" href="https://instagram.com/atajfemme" target="_blank" rel="noopener">@atajfemme en Instagram →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="tienda" class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">la colección</span>
+        <h2>Elegí tus favoritas 🖤<br>Sumalas al carrito y finalizá tu pedido por WhatsApp</h2>
+      </div>
+    </div>
+
+    <div class="shop-filters reveal">
+      <div class="filter-cats" id="filterCats" role="group" aria-label="Filtrar por categoría">
+        <button type="button" class="pill is-active" data-cat="all">Todos</button>
+        <button type="button" class="pill" data-cat="tops">Tops</button>
+        <button type="button" class="pill" data-cat="musculosas">Musculosas</button>
+        <button type="button" class="pill" data-cat="remeras">Remeras</button>
+        <button type="button" class="pill" data-cat="pantalones">Pantalones</button>
+      </div>
+      <div class="search-field" id="searchField">
+        <input type="search" id="searchInput" placeholder="Buscar por nombre..." aria-label="Buscar por nombre">
+        <button type="button" class="icon-btn" id="searchToggle" aria-label="Buscar prendas" aria-expanded="false" aria-controls="searchInput">
+          <svg class="hw"><use href="#icon-search"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="shop-grid" id="shopGrid"></div>
+    <p class="shop-empty" id="shopEmpty" hidden>No encontramos piezas con ese filtro. Probá con otra búsqueda o categoría.</p>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg class="hw"><use href="#heart-wire"/></svg></div>
+
+  <section id="nosotras" class="wrap">
+    <div class="about">
+      <div class="reveal">
+        <span class="kicker">mi historia</span>
+        <p class="about-lead">Hola, soy Aylén, la cara detrás de ATAJ. Soy amante de viajar y de buscar inspiración en cada lugar y en cada experiencia. ATAJ nació de esas ganas de crear algo propio, con identidad, y con el deseo de que este proyecto me acompañe en ese camino.</p>
+        <p>De a poco, entre ideas, pruebas y trabajo, este proyecto fue tomando forma. Hoy es proceso, crecimiento y un sueño en movimiento — gracias a cada una de ustedes por su cariño y por acompañarme en este camino.</p>
+      </div>
+      <div class="collage reveal">
+        <img class="c1" src="img/img2.jpeg" alt="Aylén, creadora de ATAJ, en Roma">
+        <img class="badge" src="img/img0.jpeg" alt="Logo ATAJ">
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg class="hw"><use href="#heart-wire"/></svg></div>
+
+  <section id="instagram" class="wrap">
+    <div class="ig-head reveal">
+      <span class="kicker">seguinos</span>
+      <h2>@atajfemme</h2>
+      <p style="color:var(--bone-dim); margin-top:.8rem;">Drops, backstage y looks reales de la comunidad. Las novedades salen ahí primero.</p>
+    </div>
+
+    <div class="testi-head reveal">
+      <span class="kicker">opiniones reales</span>
+      <p class="testi-sub">Ellas dicen: experiencias reales de quienes ya eligieron ATAJ Femme.</p>
+    </div>
+    <div class="testi-wrap reveal">
+      <div class="testi-track" id="testiTrack"></div>
+    </div>
+
+    <div class="ig-cta">
+      <a class="btn btn--ghost" href="https://instagram.com/atajfemme" target="_blank" rel="noopener">Ir al Instagram →</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <img class="brand-mark" src="img/img0.jpeg" alt="ATAJ">
+          <span>FEMME</span>
+        </div>
+        <p class="foot-tag">Ropa vintage con actitud. Piezas únicas por drop, compra directa y sin vueltas por WhatsApp.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="#tienda">Colección</a></li>
+          <li><a href="#instagram">Instagram</a></li>
+          <li><a href="#nosotras">Mi historia</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/5491125645400" target="_blank" rel="noopener">WhatsApp: escribinos</a></li>
+          <li><a href="https://instagram.com/atajfemme" target="_blank" rel="noopener">@atajfemme</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> ATAJ Femme</span>
+      <span>Consultas por talles, stock y envíos: escribinos por WhatsApp.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="cart-fab" id="cartFab" aria-haspopup="dialog" aria-controls="cartDrawer" aria-label="Abrir carrito">
+  <svg class="hw"><use href="#icon-bag"/></svg>
+  <span class="cart-count" id="cartCountFab" data-empty="true">0</span>
+</button>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Tu pedido">
+  <div class="drawer__head">
+    <h3>Tu pedido</h3>
+    <button class="drawer__close" id="drawerCloseBtn" aria-label="Cerrar carrito">×</button>
+  </div>
+  <div class="drawer__body" id="drawerBody"></div>
+  <div class="drawer__fields" id="drawerFields" hidden>
+    <input type="text" id="fieldName" placeholder="Tu nombre">
+    <input type="text" id="fieldLocation" placeholder="Localidad / dirección de envío">
+  </div>
+  <div class="drawer__foot">
+    <div class="totals"><span>Total</span><span id="cartTotal">$0</span></div>
+    <button class="btn btn--primary btn--block" id="checkoutBtn" disabled>
+      <svg class="hw"><use href="#heart-wire"/></svg>
+      Finalizar por WhatsApp
+    </button>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg class="hw"><use href="#heart-wire"/></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button type="button" class="lightbox__close" id="lightboxClose" aria-label="Cerrar">×</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var WHATSAPP_NUMBER = "5491125645400";
+
+  var PRODUCTS = [
+    {
+      id:"musculosa-vintage", name:"Musculosa Vintage", tag:"Edición limitada", cat:"musculosas",
+      desc:"Rayas retro en tela Ribb. Cada color tiene talles limitados — elegí primero el color.",
+      price:14000, img:"img/img5.jpeg",
+      alt:"Musculosa vintage color gris a rayas", size:"wide",
+      variants:[
+        { color:"Gris",      sizes:["S","M","L"], img:"img/img5.jpeg",  alt:"Musculosa vintage color gris a rayas" },
+        { color:"Azul",      sizes:["L"],         img:"img/img7.jpeg",  alt:"Musculosa vintage color azul marino a rayas" },
+        { color:"Crema",     sizes:["S","M"],     img:"img/img8.jpeg", alt:"Musculosa vintage color crema a rayas" },
+        { color:"Chocolate", sizes:["S","M"],     img:"img/img9.jpeg", alt:"Musculosa vintage color chocolate a rayas" }
+      ]
+    },
+    {
+      id:"nina", name:"Remera Nina", tag:null, cat:"remeras",
+      desc:"Rayas anchas en algodón con cuello en contraste. Elegí primero el color.",
+      price:16500, img:"img/img10.jpeg",
+      alt:"Remera Nina a rayas blancas y negras con cuello y puños rojos", size:"tall",
+      variants:[
+        { color:"Negro", sizes:["S","M","L","XL"], img:"img/img10.jpeg", alt:"Remera Nina a rayas blancas y negras con cuello y puños rojos" },
+        { color:"Azul",  sizes:["S"], img:"img/img12.jpeg",       alt:"Remera Nina a rayas azul marino y blanco con cuello rojo" }
+      ]
+    },
+    {
+      id:"boxy-nina", name:"Boxy Nina", tag:null, cat:"remeras",
+      desc:"Remera boxy a rayas en algodón, calce oversize.",
+      price:16500, img:"img/img13.jpeg",
+      alt:"Remera Boxy Nina a rayas rojas y negras", size:"tall",
+      sizes:["S/M","L/XL","XXL"], colors:null
+    },
+    {
+      id:"charlotte", name:"Top Charlotte", tag:null, cat:"tops",
+      desc:"Top de encaje sin mangas con cuello mao para atar.",
+      price:14000, img:"img/img14.jpeg",
+      alt:"Modelo con Top Charlotte de encaje chocolate, cuello mao", size:"tall",
+      sizes:["M"], colors:null
+    },
+    {
+      id:"amelie", name:"Remera Amelie", tag:null, cat:"remeras",
+      desc:"Musculosa en tela morley con puntilla y 2 botones al frente.",
+      price:14000, img:"img/img15.jpeg",
+      alt:"Remera Amelie rosa con puntilla y botones", size:"tall",
+      variants:[
+        { color:"Rosa",     sizes:["S","M","L"], img:"img/img15.jpeg",     alt:"Remera Amelie rosa con puntilla y botones" },
+        { color:"Amarillo", sizes:["S","M","L"], img:"img/img17.jpeg", alt:"Remera Amelie amarilla con puntilla y botones" }
+      ]
+    },
+    {
+      id:"rihanna", name:"Top Rihanna", tag:null, cat:"tops",
+      desc:"Escote en V con puntilla en el borde. Cada color tiene talles limitados — elegí primero el color.",
+      price:15000, img:"img/img18.jpeg",
+      alt:"Modelo con Top Rihanna", size:"tall",
+      variants:[
+        { color:"Chocolate", sizes:["S","M","L"], img:"img/img19.jpeg", alt:"Top Rihanna chocolate, escote en V con puntilla" },
+        { color:"Negro",     sizes:["S","L"],     img:"img/img20.jpeg", alt:"Top Rihanna negro, escote en V con puntilla" }
+      ]
+    },
+    {
+      id:"issa", name:"Top Issa", tag:null, cat:"tops",
+      desc:"Musculosa canalé escote en V con puntilla en el borde.",
+      price:14000, img:"img/img21.jpeg",
+      alt:"Modelo con Top Issa, musculosa marrón escote en V con puntilla",
+      sizes:["S","M","L"], colors:null, size:"tall"
+    },
+    {
+      id:"ambar", name:"Top Ámbar", tag:null, cat:"tops",
+      desc:"Halter cuello alto con espalda abierta, en canalé. Cada color tiene talles limitados — elegí primero el color.",
+      price:13500, img:"img/img22.jpeg",
+      alt:"Top Ámbar negro, halter cuello alto, en maniquí", size:"tall",
+      variants:[
+        { color:"Negro",       sizes:["S","M","L"], img:"img/img22.jpeg",  alt:"Top Ámbar negro, halter cuello alto, en maniquí" },
+        { color:"Blanco",      sizes:["S","M","L"], img:"img/img24.jpeg", alt:"Top Ámbar blanco, halter cuello alto, en maniquí" },
+        { color:"Chocolate",   sizes:["S","M","L"], img:"img/img25.jpeg",  alt:"Top Ámbar chocolate, halter cuello alto, en maniquí" },
+        { color:"Azul marino", sizes:["M"],         img:"img/img26.jpeg",   alt:"Top Ámbar azul marino, halter cuello alto, en maniquí" }
+      ]
+    },
+    {
+      id:"valley", name:"Remera Valley", tag:null, cat:"remeras",
+      desc:"Ringer en tela Ribb con estampa \"Valley Champions\" bordada al tono.",
+      price:14000, img:"img/img27.jpeg",
+      alt:"Modelo con Remera Valley blanca, puño y cuello negro, estampa Valley Champions",
+      sizes:["S/M"], colors:null, size:"tall"
+    },
+    {
+      id:"alma", name:"Musculosa Alma", tag:null, cat:"musculosas",
+      desc:"Musculosa en tela morley con estampa floral, breteles finos.",
+      price:10500, img:"img/img28.jpeg",
+      alt:"Modelo con Musculosa Alma floral, breteles rosa", size:"tall",
+      variants:[
+        { color:"Rosa",  sizes:["S","M","L"], img:"img/img28.jpeg",  alt:"Modelo con Musculosa Alma floral, breteles rosa" },
+        { color:"Bordó", sizes:["S","M","L"], img:"img/img30.jpeg", alt:"Musculosa Alma floral, breteles bordó, en maniquí" }
+      ]
+    },
+    {
+      id:"ivi", name:"Musculosa Ivi", tag:null, cat:"musculosas",
+      desc:"Musculosa canalé en tela morley, espalda nadadora con detalle de puntilla.",
+      price:12000, img:"img/img31.jpeg",
+      alt:"Musculosa Ivi negra, espalda nadadora con puntilla", size:"tall",
+      sizes:["M"], colors:null
+    },
+    {
+      id:"emma", name:"Pantalón Emma", tag:null, cat:"pantalones",
+      desc:"Pantalón oxford en tela cupro, cintura elástica. Cada color tiene talles limitados — elegí primero el color.",
+      price:28500, img:"img/img32.jpeg",
+      alt:"Modelo con Pantalón Emma chocolate, tela cupro", size:"tall",
+      variants:[
+        { color:"Chocolate", sizes:["S/M","M/L"], img:"img/img32.jpeg", alt:"Modelo con Pantalón Emma chocolate, tela cupro" },
+        { color:"Crema",     sizes:["S/M","M/L"], img:"img/img34.jpeg", alt:"Pantalón Emma crema, tela cupro, en maniquí" }
+      ]
+    },
+    {
+      id:"luna", name:"Top Luna", tag:null, cat:"tops",
+      desc:"Musculosa en tela Ribb con puntilla en el escote.",
+      price:15000, img:"img/img35.jpeg",
+      alt:"Top Luna negro con puntilla en el escote", size:"tall",
+      variants:[
+        { color:"Negro",     sizes:["S","M","L"], img:"img/img35.jpeg", alt:"Top Luna negro con puntilla en el escote" },
+        { color:"Chocolate", sizes:["S","M","L"], img:"img/img37.jpeg", alt:"Top Luna chocolate con puntilla en el escote" }
+      ]
+    },
+    {
+      id:"top-vintage", name:"Top Vintage", tag:null, cat:"tops",
+      desc:"Cuello halter a rayas en tela Ribb.",
+      price:14000, img:"img/img38.jpeg",
+      alt:"Top Vintage verde a rayas, cuello halter", size:"tall",
+      variants:[
+        { color:"Verde",  sizes:["S","M","L"], img:"img/img38.jpeg",  alt:"Top Vintage verde a rayas, cuello halter" },
+        { color:"Gris",   sizes:["S","M","L"], img:"img/img40.jpeg",   alt:"Top Vintage gris a rayas, cuello halter" },
+        { color:"Rosa",   sizes:["S","M","L"], img:"img/img41.jpeg",   alt:"Top Vintage rosa a rayas, cuello halter" },
+        { color:"Chocolate", sizes:["S","M","L"], img:"img/img42.jpeg", alt:"Top Vintage chocolate a rayas, cuello halter" }
+      ]
+    },
+    {
+      id:"remera-vintage", name:"Remera Vintage", tag:null, cat:"remeras",
+      desc:"Baby tee a rayas, cuello redondo, estilo Y2K. Cada color tiene talles limitados — elegí primero el color.",
+      price:13000, img:"img/img43.jpeg",
+      alt:"Remera vintage color azul y rojo a rayas", size:"wide",
+      variants:[
+        { color:"Azul y rojo", sizes:["S"], img:"img/img43.jpeg",  alt:"Remera vintage color azul y rojo a rayas" },
+        { color:"Chocolate",   sizes:["S"], img:"img/img45.jpeg", alt:"Remera vintage color chocolate a rayas" }
+      ]
+    }
+  ];
+
+  function fmt(n){ return "$" + n.toLocaleString("es-AR"); }
+
+  /* ---------- render products ---------- */
+  var grid = document.getElementById("shopGrid");
+  var selections = {}; // id -> {size,color}
+  var cardEntries = []; // { card, cat, text } for search/filter
+
+  /* ---------- lightbox (ampliar foto) ---------- */
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  function openLightbox(src, alt){
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || "";
+    lightbox.classList.add("is-open");
+  }
+  function closeLightbox(){ lightbox.classList.remove("is-open"); }
+  document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function(e){ if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLightbox(); });
+
+  PRODUCTS.forEach(function(p){
+    var hasVariants = !!p.variants;
+    selections[p.id] = {
+      size: (!hasVariants && p.sizes.length === 1) ? p.sizes[0] : null,
+      color: (!hasVariants && p.colors && p.colors.length === 1) ? p.colors[0] : null
+    };
+
+    var card = document.createElement("article");
+    card.className = "piece piece--" + p.size + " reveal";
+
+    var sizesHTML = "";
+    var colorsHTML = "";
+
+    if(hasVariants){
+      sizesHTML = '<div class="pillrow-label">Talle</div><div class="pillrow" data-role="sizes"></div><p class="hint" data-hint="sizes">Elegí un color para ver los talles</p>';
+      colorsHTML = '<div class="pillrow-label">Color</div><div class="pillrow" data-role="colors">';
+      p.variants.forEach(function(v){ colorsHTML += '<button type="button" class="pill" data-color="'+v.color+'">'+v.color+'</button>'; });
+      colorsHTML += '</div><p class="hint" data-hint="colors">Elegí un color</p>';
+    } else {
+      if(p.sizes.length > 1){
+        sizesHTML += '<div class="pillrow-label">Talle</div><div class="pillrow" data-role="sizes">';
+        p.sizes.forEach(function(s){ sizesHTML += '<button type="button" class="pill" data-size="'+s+'">'+s+'</button>'; });
+        sizesHTML += '</div><p class="hint" data-hint="sizes">Elegí un talle</p>';
+      } else {
+        sizesHTML += '<div class="pillrow-label">Talle</div><div class="pillrow"><span class="pill is-active" style="cursor:default;">'+p.sizes[0]+'</span></div>';
+      }
+      if(p.colors){
+        colorsHTML += '<div class="pillrow-label">Color</div><div class="pillrow" data-role="colors">';
+        p.colors.forEach(function(c){ colorsHTML += '<button type="button" class="pill" data-color="'+c+'">'+c+'</button>'; });
+        colorsHTML += '</div><p class="hint" data-hint="colors">Elegí un color</p>';
+      }
+    }
+
+    card.innerHTML =
+      '<div class="piece__frame">'+
+        '<img class="piece__photo" src="'+p.img+'" alt="'+p.alt+'" loading="lazy">'+
+        (p.tag ? '<span class="piece__tag">'+p.tag+'</span>' : '')+
+        '<svg class="piece__mark hw"><use href="#heart-wire"/></svg>'+
+        '<span class="piece__zoom" aria-hidden="true"><svg class="hw"><use href="#icon-expand"/></svg></span>'+
+      '</div>'+
+      '<div class="piece__body">'+
+        '<div class="piece__head"><h3>'+p.name+'</h3><span class="piece__price">'+fmt(p.price)+'</span></div>'+
+        '<p class="piece__desc">'+p.desc+'</p>'+
+        '<div class="piece__variants">'+sizesHTML+colorsHTML+'</div>'+
+        '<button type="button" class="btn btn--add" data-add="'+p.id+'">Agregar al carrito</button>'+
+      '</div>';
+
+    grid.appendChild(card);
+    cardEntries.push({ card:card, cat:p.cat, text:(p.name+" "+p.desc).toLowerCase() });
+
+    card.querySelector(".piece__frame").addEventListener("click", function(){
+      var photo = card.querySelector(".piece__photo");
+      openLightbox(photo.src, photo.alt);
+    });
+
+    function bindSizePills(){
+      card.querySelectorAll('[data-size]').forEach(function(btn){
+        btn.addEventListener("click", function(){
+          card.querySelectorAll('[data-size]').forEach(function(b){ b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+          selections[p.id].size = btn.dataset.size;
+          var row = card.querySelector('[data-role="sizes"]');
+          row.classList.remove("needs-attention");
+          card.querySelector('[data-hint="sizes"]').classList.remove("is-visible");
+        });
+      });
+    }
+
+    if(hasVariants){
+      card.querySelectorAll('[data-color]').forEach(function(btn){
+        btn.addEventListener("click", function(){
+          card.querySelectorAll('[data-color]').forEach(function(b){ b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+
+          var variant = p.variants.filter(function(v){ return v.color === btn.dataset.color; })[0];
+          selections[p.id].color = variant.color;
+          selections[p.id].size = variant.sizes.length === 1 ? variant.sizes[0] : null;
+
+          var sizesRow = card.querySelector('[data-role="sizes"]');
+          if(variant.sizes.length === 1){
+            sizesRow.innerHTML = '<span class="pill is-active" style="cursor:default;">'+variant.sizes[0]+'</span>';
+          } else {
+            sizesRow.innerHTML = variant.sizes.map(function(s){ return '<button type="button" class="pill" data-size="'+s+'">'+s+'</button>'; }).join("");
+            bindSizePills();
+          }
+          sizesRow.classList.remove("needs-attention");
+          card.querySelector('[data-hint="sizes"]').classList.remove("is-visible");
+
+          var photo = card.querySelector(".piece__photo");
+          photo.src = variant.img;
+          photo.alt = variant.alt;
+
+          var cr = card.querySelector('[data-role="colors"]');
+          cr.classList.remove("needs-attention");
+          card.querySelector('[data-hint="colors"]').classList.remove("is-visible");
+        });
+      });
+    } else {
+      bindSizePills();
+      card.querySelectorAll('[data-color]').forEach(function(btn){
+        btn.addEventListener("click", function(){
+          card.querySelectorAll('[data-color]').forEach(function(b){ b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+          selections[p.id].color = btn.dataset.color;
+          var row = card.querySelector('[data-role="colors"]');
+          row.classList.remove("needs-attention");
+          card.querySelector('[data-hint="colors"]').classList.remove("is-visible");
+        });
+      });
+    }
+
+    card.querySelector('[data-add]').addEventListener("click", function(){
+      var sel = selections[p.id];
+      var ok = true;
+      if(hasVariants){
+        if(!sel.color){
+          ok = false;
+          card.querySelector('[data-role="colors"]').classList.add("needs-attention");
+          card.querySelector('[data-hint="colors"]').classList.add("is-visible");
+        } else if(!sel.size){
+          ok = false;
+          card.querySelector('[data-role="sizes"]').classList.add("needs-attention");
+          card.querySelector('[data-hint="sizes"]').classList.add("is-visible");
+        }
+      } else {
+        if(p.sizes.length > 1 && !sel.size){
+          ok = false;
+          card.querySelector('[data-role="sizes"]').classList.add("needs-attention");
+          card.querySelector('[data-hint="sizes"]').classList.add("is-visible");
+        }
+        if(p.colors && !sel.color){
+          ok = false;
+          card.querySelector('[data-role="colors"]').classList.add("needs-attention");
+          card.querySelector('[data-hint="colors"]').classList.add("is-visible");
+        }
+      }
+      if(!ok) return;
+
+      if(hasVariants){
+        var variant = p.variants.filter(function(v){ return v.color === sel.color; })[0];
+        addToCart({ id:p.id, name:p.name, price:p.price, img:variant.img }, sel.size, sel.color);
+      } else {
+        addToCart(p, sel.size, sel.color);
+      }
+    });
+  });
+
+  /* ---------- búsqueda y filtro por categoría ---------- */
+  var searchField = document.getElementById("searchField");
+  var searchToggle = document.getElementById("searchToggle");
+  var searchInput = document.getElementById("searchInput");
+  var filterCats = document.getElementById("filterCats");
+  var shopEmpty = document.getElementById("shopEmpty");
+  var activeCat = "all";
+
+  function applyFilters(){
+    var q = searchInput.value.trim().toLowerCase();
+    var visible = 0;
+    cardEntries.forEach(function(entry){
+      var matchesCat = activeCat === "all" || entry.cat === activeCat;
+      var matchesQuery = q === "" || entry.text.indexOf(q) !== -1;
+      var show = matchesCat && matchesQuery;
+      entry.card.hidden = !show;
+      if(show) visible++;
+    });
+    shopEmpty.hidden = visible > 0;
+  }
+
+  function closeSearch(){
+    searchField.classList.remove("is-open");
+    searchToggle.setAttribute("aria-expanded", "false");
+    searchInput.value = "";
+    applyFilters();
+  }
+
+  searchToggle.addEventListener("click", function(){
+    var isOpen = searchField.classList.toggle("is-open");
+    searchToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    if(isOpen){ searchInput.focus(); } else { closeSearch(); }
+  });
+  searchInput.addEventListener("input", applyFilters);
+  searchInput.addEventListener("keydown", function(e){ if(e.key === "Escape") closeSearch(); });
+  document.addEventListener("click", function(e){
+    if(searchField.classList.contains("is-open") && !searchField.contains(e.target)) closeSearch();
+  });
+
+  filterCats.querySelectorAll("[data-cat]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      filterCats.querySelectorAll("[data-cat]").forEach(function(b){ b.classList.remove("is-active"); });
+      btn.classList.add("is-active");
+      activeCat = btn.dataset.cat;
+      applyFilters();
+    });
+  });
+
+  /* ---------- testimonios (tira automática) ---------- */
+  var TESTIMONIALS = [
+    { img:"img/img46.jpeg", alt:"Clienta: ya me llegó el pedido, hermoso todo, gracias" },
+    { img:"img/img47.jpeg", alt:"Clienta: re lindo todo y re linda calidad, me encantó" },
+    { img:"img/img48.jpeg", alt:"Clienta: querría avisarte que me llegó bien el pedido y la calidad de las musculosas son un sueño" },
+    { img:"img/img49.jpeg", alt:"Clienta: es hermosa la remera, me encantó" },
+    { img:"img/img50.jpeg", alt:"Clienta: ya llegó todo, muchísimas gracias, todo muy lindo y 10/10 la atención" },
+    { img:"img/img51.jpeg", alt:"Clienta: ya me llegó, está súper linda, muchas gracias" },
+    { img:"img/img52.jpeg", alt:"Clienta: están hermosos, me encantaron, muchas gracias" },
+    { img:"img/img53.jpeg", alt:"Clienta: holi, estaba muy linda la remera" },
+    { img:"img/img54.jpeg", alt:"Clienta: me encantaron, muchas gracias" }
+  ];
+  var testiTrack = document.getElementById("testiTrack");
+  for(var t=0;t<2;t++){
+    TESTIMONIALS.forEach(function(item){
+      var img = document.createElement("img");
+      img.src = item.img;
+      img.alt = item.alt;
+      img.loading = "lazy";
+      testiTrack.appendChild(img);
+    });
+  }
+
+
+  /* ---------- cart ---------- */
+  var cart = [];
+  try{ var saved = JSON.parse(localStorage.getItem("ataj_cart") || "[]"); if(Array.isArray(saved)) cart = saved; }catch(e){}
+
+  function persist(){ try{ localStorage.setItem("ataj_cart", JSON.stringify(cart)); }catch(e){} }
+
+  function addToCart(p, size, color){
+    var key = p.id + "__" + (size||"") + "__" + (color||"");
+    var existing = cart.find(function(i){ return i.key === key; });
+    if(existing){ existing.qty += 1; }
+    else{ cart.push({ key:key, id:p.id, name:p.name, price:p.price, img:p.img, size:size, color:color, qty:1 }); }
+    persist();
+    renderCart();
+    showToast("Agregado: " + p.name + (size ? " · Talle " + size : "") + (color ? " · " + color : ""));
+  }
+
+  function changeQty(key, delta){
+    var item = cart.find(function(i){ return i.key === key; });
+    if(!item) return;
+    item.qty += delta;
+    if(item.qty <= 0){ cart = cart.filter(function(i){ return i.key !== key; }); }
+    persist(); renderCart();
+  }
+
+  function removeItem(key){
+    cart = cart.filter(function(i){ return i.key !== key; });
+    persist(); renderCart();
+  }
+
+  var drawerBody = document.getElementById("drawerBody");
+  var drawerFields = document.getElementById("drawerFields");
+  var cartTotalEl = document.getElementById("cartTotal");
+  var checkoutBtn = document.getElementById("checkoutBtn");
+  var cartCountEls = [document.getElementById("cartCount"), document.getElementById("cartCountFab")];
+
+  function renderCart(){
+    var count = cart.reduce(function(s,i){ return s + i.qty; }, 0);
+    cartCountEls.forEach(function(el){ el.textContent = count; el.dataset.empty = count === 0 ? "true" : "false"; });
+
+    if(cart.length === 0){
+      drawerBody.innerHTML = '<p class="drawer__empty">Todavía no agregaste nada.<br>Elegí tus piezas en la colección 🖤</p>';
+      drawerFields.hidden = true;
+      checkoutBtn.disabled = true;
+      cartTotalEl.textContent = fmt(0);
+      return;
+    }
+
+    drawerFields.hidden = false;
+    drawerBody.innerHTML = "";
+    var total = 0;
+    cart.forEach(function(item){
+      total += item.price * item.qty;
+      var meta = [];
+      if(item.size) meta.push("Talle " + item.size);
+      if(item.color) meta.push(item.color);
+      var row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML =
+        '<img src="'+item.img+'" alt="'+item.name+'">'+
+        '<div>'+
+          '<div class="cart-item__name">'+item.name+'</div>'+
+          (meta.length ? '<div class="cart-item__meta">'+meta.join(" · ")+'</div>' : '')+
+          '<div class="cart-item__price">'+fmt(item.price * item.qty)+'</div>'+
+          '<div class="qty">'+
+            '<button type="button" data-dec>−</button><span>'+item.qty+'</span><button type="button" data-inc>+</button>'+
+          '</div>'+
+        '</div>'+
+        '<button type="button" class="cart-item__remove" aria-label="Quitar">×</button>';
+      row.querySelector('[data-dec]').addEventListener("click", function(){ changeQty(item.key, -1); });
+      row.querySelector('[data-inc]').addEventListener("click", function(){ changeQty(item.key, 1); });
+      row.querySelector('.cart-item__remove').addEventListener("click", function(){ removeItem(item.key); });
+      drawerBody.appendChild(row);
+    });
+    cartTotalEl.textContent = fmt(total);
+    checkoutBtn.disabled = false;
+  }
+
+  checkoutBtn.addEventListener("click", function(){
+    if(cart.length === 0) return;
+    var name = document.getElementById("fieldName").value.trim();
+    var loc = document.getElementById("fieldLocation").value.trim();
+    var lines = ["¡Hola ATAJ! Quiero hacer este pedido:", ""];
+    var total = 0;
+    cart.forEach(function(item){
+      total += item.price * item.qty;
+      var meta = [];
+      if(item.size) meta.push("Talle " + item.size);
+      if(item.color) meta.push(item.color);
+      lines.push("• " + item.name + (meta.length ? " (" + meta.join(", ") + ")" : "") + " x" + item.qty + " — " + fmt(item.price * item.qty));
+    });
+    lines.push("", "Total: " + fmt(total));
+    if(name) lines.push("", "Nombre: " + name);
+    if(loc) lines.push("Localidad/dirección: " + loc);
+    var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+    window.open(url, "_blank", "noopener");
+  });
+
+  /* ---------- drawer open/close ---------- */
+  var scrim = document.getElementById("scrim");
+  var drawer = document.getElementById("cartDrawer");
+  var lastFocus = null;
+
+  function openDrawer(){
+    lastFocus = document.activeElement;
+    drawer.classList.add("is-open");
+    scrim.classList.add("is-open");
+    document.getElementById("drawerCloseBtn").focus();
+  }
+  function closeDrawer(){
+    drawer.classList.remove("is-open");
+    scrim.classList.remove("is-open");
+    if(lastFocus) lastFocus.focus();
+  }
+  document.getElementById("cartOpenBtn").addEventListener("click", openDrawer);
+  document.getElementById("cartFab").addEventListener("click", openDrawer);
+  document.getElementById("drawerCloseBtn").addEventListener("click", closeDrawer);
+  scrim.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && drawer.classList.contains("is-open")) closeDrawer(); });
+
+  document.getElementById("heroShopBtn").addEventListener("click", function(){
+    document.getElementById("tienda").scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  /* ---------- toast ---------- */
+  var toast = document.getElementById("toast");
+  var toastMsg = document.getElementById("toastMsg");
+  var toastTimer = null;
+  function showToast(msg){
+    toastMsg.textContent = msg;
+    toast.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove("is-visible"); }, 2400);
+  }
+
+  /* ---------- scroll reveal ---------- */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if("IntersectionObserver" in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add("is-visible"); io.unobserve(entry.target); }
+      });
+    }, { threshold:0.15, rootMargin:"0px 0px -60px 0px" });
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("is-visible"); });
+  }
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  renderCart();
+})();
+</script>
